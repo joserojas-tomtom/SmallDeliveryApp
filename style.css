@@ -1,0 +1,76 @@
+/* spacing */
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 3px solid purple;
+}
+
+thead th:nth-child(1) {
+  width: 20%;
+  background-color: aquamarine;
+}
+
+thead th:nth-child(2) {
+  width: 60%;
+  background-color: aquamarine;
+
+}
+
+thead th:nth-child(3) {
+  width: 20%;
+  background-color: aquamarine;
+
+}
+
+th, td {
+  padding: 20px;
+  font-family:Noway; 
+  font-size:24px
+}
+
+input {
+  font-family:Noway; 
+  font-size:24px
+}
+
+li {
+  font-family:Noway; 
+  font-size:12px
+}
+
+button {
+  font-family:Noway; 
+  font-size:16px
+}
+
+.demotitle {
+  font-family:Noway; 
+  font-size:24px
+}
+
+.marker {
+    height: 30px;
+    width: 30px;
+    background-size: 100% 100%;
+}
+
+.marker-icon {
+    background-position: center;
+    background-size:30px 30px;
+    border-radius: 50%;
+    height: 30px;
+    left: 4px;
+    position: absolute;
+    text-align: center;
+    top: 3px;
+    transform: rotate(45deg);
+    width: 30px;
+}
+
+textarea {
+  resize: none;
+  height: 60vh;
+  width: 100%
+}
