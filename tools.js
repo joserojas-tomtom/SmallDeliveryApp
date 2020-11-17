@@ -131,3 +131,21 @@ setDifference = (setA, setB) => {
   })
   return ret
 }
+
+function convertSecondstoTime(given_seconds) { 
+
+      dateObj = new Date(given_seconds * 1000); 
+      hours = dateObj.getUTCHours(); 
+      minutes = dateObj.getUTCMinutes(); 
+      seconds = dateObj.getSeconds(); 
+
+      return hours.toString().padStart(2, '0') 
+          + ':' + minutes.toString().padStart(2, '0') 
+          + ':' + seconds.toString().padStart(2, '0'); 
+     
+} 
+
+function convertToKM(mts) {
+  var km = mts/1000
+  return km.toFixed(2)
+}

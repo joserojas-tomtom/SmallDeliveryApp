@@ -9,18 +9,18 @@ table {
 
 thead th:nth-child(1) {
   width: 20%;
-  background-color: aquamarine;
+  background-color: rgb(141,195,235);
 }
 
 thead th:nth-child(2) {
   width: 60%;
-  background-color: aquamarine;
+  background-color: rgb(141,195,235);
 
 }
 
 thead th:nth-child(3) {
   width: 20%;
-  background-color: aquamarine;
+  background-color: rgb(141,195,235);
 
 }
 
@@ -53,10 +53,14 @@ button {
 .marker {
     height: 30px;
     width: 30px;
-    background-size: 100% 100%;
+    background-size: 30px 30px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
 }
 
-.marker-icon {
+/* .marker-icon {
     background-position: center;
     background-size:30px 30px;
     border-radius: 50%;
@@ -67,7 +71,7 @@ button {
     top: 3px;
     transform: rotate(45deg);
     width: 30px;
-}
+} */
 
 textarea {
   resize: none;

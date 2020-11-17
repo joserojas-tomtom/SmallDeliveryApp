@@ -24,7 +24,7 @@
     </thead>
     <tbody>
       <tr>
-        <td style="float:left">
+        <td style=" float:left">
           <div style="height:20vh;">
             <div>Center of Operations / Headquarter</div>
             <div id="hq-address">Carrer de Xàtiva, 16 Valencia</div>
@@ -40,7 +40,7 @@
           <button onclick="addDestination()">Add destination</button>
           <p></p>
           <div style="width:50vw; height:50vh;" id="mymap">
-            <label style="padding: 5px;position: absolute; z-index: 1; background-color: orange;">Fastest</label>
+            <label style="padding: 5px;position: absolute; z-index: 1; background-color: red;">Fastest</label>
             <br><br>
             <label
               style="padding: 5px;position: absolute; z-index: 1; background-color: blue; color: white">Shortest</label>
@@ -50,7 +50,7 @@
             <thead>
               <tr>
                 <th style="width:50%">Fastest Route</th>
-                <th style="width:50%">Shortest RouteE</th>
+                <th style="width:50%">Shortest Route</th>
               </tr>
               <tr>
                 <td>
@@ -82,7 +82,6 @@
   <script>
     var points = []
     var APIKEY = "Insert your API KEY here! Get one free at https://developer.tomtom.com"
-
     // Instructions list from the Routing API
     var instructions = new Map()
 
@@ -116,7 +115,12 @@
 
       var marker = new tt.Marker({ element: markerElement })
         .setLngLat(VALENCIA)
+        .setDraggable(true)
         .addTo(map);
+
+      marker.on('dragend', function (event) {
+        console.log(event)
+      })
 
       // Add the first point as the HQ
       points.push({
@@ -135,13 +139,6 @@
     // We create a destination marker and reverse geocode the coordinates
     // to get the address  
     map.on('click', function (event) {
-      marker = createMarker(event.lngLat);
-      points.push({
-        name: points.length,
-        location: event.lngLat,
-        innerMarker: marker
-      })
-      marker.addTo(map)
 
       // reverse geocode address
       tt.services.reverseGeocode({
@@ -151,9 +148,22 @@
         .go()
         .then(function (response) {
           console.log(response)
-          var firstResult = response.addresses[0];
-          var address = firstResult.address.freeformAddress;
-          addDelivery(address, event.lngLat)
+          var firstResult = response.addresses[0]
+          var address = firstResult.address.freeformAddress
+          var position = firstResult.position
+
+          // create the marker in this position
+          marker = createMarker(position);
+          points.push({
+            name: points.length,
+            location: position,
+            innerMarker: marker
+          })
+          marker.addTo(map)
+
+          // Update the delivery list
+          addDelivery(address, position)
+
         })
     })
 
@@ -200,7 +210,7 @@
       markerElement.style.backgroundImage = 'url(shield.png)'
 
       var marker = new tt.Marker({
-        element: markerElement, anchor: 'center'
+        element: markerElement, anchor: 'top'
       })
       marker.setLngLat(lngLat)
       return marker
@@ -233,6 +243,7 @@
             }
           }
         });
+      document.getElementById("location").value = ""
     }
 
     // Remove the route layer from the map
@@ -277,7 +288,7 @@
       }
 
       // remove route layers
-      clearRoute('orange')
+      clearRoute('red')
       clearRoute('blue')
 
       // clear summaries
@@ -296,8 +307,8 @@
     // Perform the search for the nearest neighbor calculation for speed
     var routeOptimizedTime = function () {
       // delete current optimized route
-      clearRoute('orange')
-      nearestNeighbor(points, 'summaryByTime', 'orange')
+      clearRoute('red')
+      nearestNeighbor(points, 'summaryByTime', 'red')
     }
 
     // Call the routing API to create a route with the selected waypoint order (in the 'options')
@@ -321,7 +332,7 @@
         // Display the distance and time sumary
         var tmpString = document.getElementById(reportId).innerHTML
         document.getElementById(reportId).innerHTML = tmpString +
-          '<br>Route is ' + length + ' meters and ' + time + ' in secs'
+          '<br>Route is ' + convertToKM(length) + ' Km and will arrive in ' + convertSecondstoTime(time) + ''
 
         map.addLayer({
           'id': color,
